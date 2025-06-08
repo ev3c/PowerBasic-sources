@@ -1,0 +1,77 @@
+' ษออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+'ษออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออปบ
+'บ Packet.......:  ARRAYBSL.INC                                           บบ
+'บ Definition...:  Array BSAVE BLOAD                                      บบ
+'บ Author.......:  Esteve Valentก Morales                                 บบ
+'บ Date.........:  01-09-91                                               บน
+'บ Observations.:  For BLOAD and BSAVE all mode of arrays in the disk     บบ
+'บ                 In all SUB xxxarrayBLOAD assume the array passed has   บบ
+'บ                 dimmensioned right, and assume the file exist.         บบ
+'ฬออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออนบ
+'บ SUB's:                                                                 บบ
+'บ            INTarray1BLOAD ( file$, INTarray%(), )                      บบ
+'บ            INTarray1BSAVE ( file$, INTarray%(), )                      บบ
+'บ            LNGarray1BLOAD ( file$, LNGarray&(), )                      บบ
+'บ            LNGarray1BSAVE ( file$, LNGarray&(), )                      บบ
+'บ            QUDarray1BLOAD ( file$, QUDarray&&(),)                      บบ
+'บ            QUDarray1BSAVE ( file$, QUDarray&&(),)                      บบ
+'บ            SNGarray1BLOAD ( file$, SNGarray!(), )                      บบ
+'บ            SNGarray1BSAVE ( file$, SNGarray!(), )                      บบ
+'บ            DBLarray1BLOAD ( file$, DBLarray#(), )                      บบ
+'บ            DBLarray1BSAVE ( file$, DBLarray#(), )                      บบ
+'บ            EXTarray1BLOAD ( file$, EXTarray##(),)                      บบ
+'บ            EXTarray1BSAVE ( file$, EXTarray##(),)                      บบ
+'บ            FIXarray1BLOAD ( file$, FIXarray@(), )                      บบ
+'บ            FIXarray1BSAVE ( file$, FIXarray@(), )                      บบ
+'บ            BCDarray1BLOAD ( file$, BCDarray@@(),)                      บบ
+'บ            BCDarray1BSAVE ( file$, BCDarray@@(),)                      บน
+'บ            INTarray2BLOAD ( file$, INTarray%(), )                      บบ
+'บ            INTarray2BSAVE ( file$, INTarray%(), )                      บบ
+'บ            LNGarray2BLOAD ( file$, LNGarray&(), )                      บบ
+'บ            LNGarray2BSAVE ( file$, LNGarray&(), )                      บบ
+'บ            QUDarray2BLOAD ( file$, QUDarray&&(),)                      บบ
+'บ            QUDarray2BSAVE ( file$, QUDarray&&(),)                      บบ
+'บ            SNGarray2BLOAD ( file$, SNGarray!(), )                      บบ
+'บ            SNGarray2BSAVE ( file$, SNGarray!(), )                      บบ
+'บ            DBLarray2BLOAD ( file$, DBLarray#(), )                      บบ
+'บ            DBLarray2BSAVE ( file$, DBLarray#(), )                      บบ
+'บ            EXTarray2BLOAD ( file$, EXTarray##(),)                      บบ
+'บ            EXTarray2BSAVE ( file$, EXTarray##(),)                      บบ
+'บ            FIXarray2BLOAD ( file$, FIXarray@(), )                      บบ
+'บ            FIXarray2BSAVE ( file$, FIXarray@(), )                      บบ
+'บ            BCDarray2BLOAD ( file$, BCDarray@@(),)                      บบ
+'บ            BCDarray2BSAVE ( file$, BCDarray@@(),)                      บน
+'บ            INTarray3BLOAD ( file$, INTarray%(), )                      บบ
+'บ            INTarray3BSAVE ( file$, INTarray%(), )                      บบ
+'บ            LNGarray3BLOAD ( file$, LNGarray&(), )                      บบ
+'บ            LNGarray3BSAVE ( file$, LNGarray&(), )                      บบ
+'บ            QUDarray3BLOAD ( file$, QUDarray&&(),)                      บบ
+'บ            QUDarray3BSAVE ( file$, QUDarray&&(),)                      บบ
+'บ            SNGarray3BLOAD ( file$, SNGarray!(), )                      บบ
+'บ            SNGarray3BSAVE ( file$, SNGarray!(), )                      บบ
+'บ            DBLarray3BLOAD ( file$, DBLarray#(), )                      บบ
+'บ            DBLarray3BSAVE ( file$, DBLarray#(), )                      บบ
+'บ            EXTarray3BLOAD ( file$, EXTarray##(),)                      บบ
+'บ            EXTarray3BSAVE ( file$, EXTarray##(),)                      บบ
+'บ            FIXarray3BLOAD ( file$, FIXarray@(), )                      บบ
+'บ            FIXarray3BSAVE ( file$, FIXarray@(), )                      บบ
+'บ            BCDarray3BLOAD ( file$, BCDarray@@(),)                      บบ
+'บ            BCDarray3BSAVE ( file$, BCDarray@@(),)                      บน
+'บ                                                                        บบ
+'ฬออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออนบ
+'บ Parameters to pass:                                                    บบ
+'บ                                                                        บบ
+'บ   file$     ===> [unit:] [\path\] file [.ext]                          บบ
+'บ                   default [unit:]  are DOS unit                        บบ
+'บ                   default [\path\] are DOS path                        บบ
+'บ                   default [.ext]   are array type .INT .LNG .QUD .SNG  บบ
+'บ                                                   .BDL .EXT .FIX .BCD  บบ
+'บ   xxxarrayx()==> array to be bsave  or bload                           บบ
+'บ                   the SUB assume array has dimmensioned right          บบ
+'บ                                                                        บบ
+'บ   d%        ===> number of dimmensions of the array                    บบ
+'บ                   if DIM array(x)           d% = 1                     บบ
+'บ                   if DIM array(x,x,x,x)     d% = 4                     บบ
+'บ                   d% accept 1 to 5 dimmensions                         บผ
+'ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+

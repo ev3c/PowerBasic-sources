@@ -1,0 +1,25 @@
+SUB OpenWindowCruci
+LOCAL P%,P1%
+SHARED CEst$,CNom$,CDef$
+SHARED MIndexCruci%()
+SHARED Cruci$()
+SHARED WMenu%
+CALL WOPEN (6,10,22,75,2,1,0,7,"Crucigramas existentes en el Fichero")
+
+IF FNQSEof(3) = 1 THEN
+    CALL WMessage(0,0,"No existen crucigramas en el fichero.")
+    WMENU% = 0
+ELSE
+ FOR P% = 1 TO FNQSEof(3) - 1
+   GET 3,MIndexCruci%(P%)
+   IF FNTrim$(CEst$) = "" THEN
+      INCR P1%,1
+      Cruci$(P1%) = CNom$+" - "+CDef$+"     "+MKI$(LOC(3))
+   END IF
+ NEXT P%
+ Cruci$(P1%+1) =""
+ CALL WMENU(Cruci$(),1)
+ CALL WCLOSE
+END IF
+END SUB
+

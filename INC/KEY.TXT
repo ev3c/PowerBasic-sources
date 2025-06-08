@@ -1,0 +1,19 @@
+KEY 17, CHR$(132) + CHR$(70)    'control/break
+ON KEY(17) GOSUB noquit
+KEY(17) ON
+
+KEY 18, CHR$(4) + CHR$(46)      'control/c  <-------------<<<<
+ON KEY(18) GOSUB noquit
+KEY(18) ON
+
+KEY 19, CHR$(12) + CHR$(83)     'control/alt/del on numeric pad
+ON KEY(19) GOSUB noquit
+KEY(19) ON
+
+KEY 20, CHR$(140) + CHR$(83)    'control/alt/del on cursor pad
+ON KEY(20) GOSUB noquit
+KEY(20) ON
+
+KEY 21, CHR$(4) + CHR$(70)      'control/scroll lock
+ON KEY(21) GOSUB noquit
+KEY(21) ON

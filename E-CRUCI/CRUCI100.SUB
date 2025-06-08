@@ -1,0 +1,223 @@
+
+'ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+'บ  Subrrutina.......:  ImprimirCruci                                        บ
+'ฬอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+'บ  Dibuja la cuadricula del crucigrama en pantalla.                         บ
+'ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+SUB ImprimirCruci (LenY%,LenX%)
+LOCAL Y%,P%
+CLS
+FOR X% = 2 TO (lenX%*4) STEP 4
+ INCR P%
+ LOCATE 2,X%
+ PRINT P%;
+NEXT X%
+P% = 0
+LOCATE 3,1
+PRINT LEFT$("ฺฤฤฤยฤฤฤยฤฤฤยฤฤฤยฤฤฤยฤฤฤยฤฤฤยฤฤฤยฤฤฤยฤฤฤยฤฤฤยฤฤฤยฤฤฤยฤฤฤยฤฤฤยฤฤฤยฤฤฤยฤฤฤยฤฤฤ",LenX%*4);"ฟ";
+FOR Y% = 4 TO (LenY%*2) STEP 2
+ INCR P%
+ LOCATE Y%,1
+ PRINT LEFT$("ณ   ณ   ณ   ณ   ณ   ณ   ณ   ณ   ณ   ณ   ณ   ณ   ณ   ณ   ณ   ณ   ณ   ณ   ณ   ณ",(LenX%*4)+1);:PRINT USING "##";P%;
+ LOCATE Y%+1,1
+ PRINT LEFT$("รฤฤฤลฤฤฤลฤฤฤลฤฤฤลฤฤฤลฤฤฤลฤฤฤลฤฤฤลฤฤฤลฤฤฤลฤฤฤลฤฤฤลฤฤฤลฤฤฤลฤฤฤลฤฤฤลฤฤฤลฤฤฤลฤฤฤ",LenX%*4);"ด";
+NEXT Y%
+ LOCATE Y%,1
+ PRINT LEFT$("ณ   ณ   ณ   ณ   ณ   ณ   ณ   ณ   ณ   ณ   ณ   ณ   ณ   ณ   ณ   ณ   ณ   ณ   ณ   ณ",(LenX%*4)+1);:PRINT USING "##";P%+1;
+
+LOCATE Y%+1,1
+PRINT LEFT$("ภฤฤฤมฤฤฤมฤฤฤมฤฤฤมฤฤฤมฤฤฤมฤฤฤมฤฤฤมฤฤฤมฤฤฤมฤฤฤมฤฤฤมฤฤฤมฤฤฤมฤฤฤมฤฤฤมฤฤฤมฤฤฤมฤฤฤ",LenX%*4);"ู";
+END SUB
+
+
+
+'ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+'บ  Subrrutina.......:  CursorCruci                                          บ
+'ฬอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+'บ  Permite seleccionar un trozo de la pantalla y mediante las teclas del    บ
+'บ  cursor desplazarse por el hasta pulsar INTRO o ESC.                      บ
+'ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+SUB CursorCruci(LENY%,LENX%)
+LOCAL T$,DIRE%,M$,Y1%,X1%,Y2%,X2%
+SHARED MCruciDat$()
+Y1% = 3
+X1% = 2
+Y2% = 25-((Leny%+1)*2)
+X2% = 80-(Lenx%*4)+1
+COLOR 15,0
+LOCATE Y1%+1,X1%+1,1
+DO
+T$ = UCASE$(INKEY$)
+IF M$<>"" THEN SWAP T$,M$
+SELECT CASE T$
+  CASE CHR$(&H00)+CHR$(&H4B)                    'CURSOR HACIA LA IZQUIERDA
+    IF POS(0) > 1+X1% THEN
+       LOCATE CSRLIN,POS(0)-4
+    ELSE
+      IF CSRLIN > 1+Y1% THEN
+         LOCATE CSRLIN-2,80-X2%
+      ELSE
+         LOCATE 25-Y2%,80-X2%
+      END IF
+    END IF
+
+  CASE CHR$(&H00)+CHR$(&H4D)                    'CURSOR HACIA LA DERECHA
+    DIRE% = 0
+    IF POS(0)< 80-X2% THEN
+       LOCATE CSRLIN,POS(0)+4
+    ELSE
+      IF CSRLIN < 25-Y2% THEN
+         LOCATE CSRLIN+2,1+X1%
+      ELSE
+         LOCATE 1+Y1%,1+X1%
+      END IF
+    END IF
+
+  CASE CHR$(&H00)+CHR$(&H48)			'CURSOR ARRIBA
+    IF CSRLIN > 2+Y1% THEN
+       LOCATE CSRLIN-2,POS(0)
+    ELSE
+      IF POS(0) > X1%+1 THEN
+        LOCATE 25-Y2%,POS(0)-4
+      ELSE
+        LOCATE 25-Y2%,80-X2%
+      END IF
+    END IF
+
+  CASE CHR$(&H00)+CHR$(&H50)                    'CURSOR HACIA ABAJO
+    DIRE% = 1
+    IF CSRLIN < 25-Y2% THEN
+       LOCATE CSRLIN+2,POS(0)
+    ELSE
+      IF POS(0) < 80-X2% THEN
+        LOCATE 1+Y1%,POS(0)+4
+      ELSE
+        LOCATE 1+Y1%,1+X1%
+      END IF
+    END IF
+
+  CASE CHR$(&H00)+CHR$(&H47)                    'CURSOR A ORIGEN
+    LOCATE CSRLIN,1+X1%
+
+  CASE CHR$(&H00)+CHR$(&H4F)                    'CURSOR A FIN
+    LOCATE CSRLIN,80-X2%
+
+  CASE CHR$(&H00)+CHR$(&H49)			'PAGINA ARRIBA
+    LOCATE 1+Y1%,POS(0)
+
+  CASE CHR$(&H00)+CHR$(&H51)			'PAGINA ABAJO
+    LOCATE 25-Y2%,POS(0)
+
+  CASE CHR$(&H00)+CHR$(&H53)                    'BORRAR
+    MCruciDat$((CSRLIN-2)\2,(POS(0)+1)\4) = ""
+    PRINT " ";
+    LOCATE CSRLIN,POS(0)-1
+
+  CASE ELSE                                     'IMPRIME CARACTER o CUADRO
+    IF (T$>="A" AND T$<="Z")_
+       OR T$="ฅ" OR T$="€" OR T$=" " THEN				
+
+	  IF T$=" " THEN
+	     MCruciDat$((CSRLIN-2)\2,(POS(0)+1)\4) = CHR$(&HDB)
+	     PRINT CHR$(&HDB);
+	  ELSE		
+	     MCruciDat$((CSRLIN-2)\2,(POS(0)+1)\4) = T$
+	     PRINT T$;
+          END IF
+	  LOCATE CSRLIN,POS(0)-1
+	  IF DIRE% = 0 THEN
+	     M$ = CHR$(&H00)+CHR$(&H4D)
+	  ELSE
+	     M$ = CHR$(&H00)+CHR$(&H50)
+	  END IF
+    ELSE
+	    IF T$<>"" AND T$<>CHR$(&H1B) THEN PRINT CHR$(7);
+    END IF
+ END SELECT
+LOOP UNTIL T$=CHR$(&H1B)
+MX%=POS(0)
+MY%=CSRLIN
+END SUB
+
+
+
+'ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+'บ  Subrrutina.......:  ImprimirDatosCruci                                   บ
+'ฬอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+'บ  Imprime los datos del Array MCruciDat$() dentro de la cuadrกcula del     บ
+'บ  crucigrama.                                                              บ
+'ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+SUB ImprimirDatosCruci(LENY%,LENX%)
+LOCAL YA%,XA%,X%,Y%
+SHARED MCruciDat$()
+XA% = 0
+FOR X% = 3 TO (Lenx%*4) STEP 4
+  INCR XA%,1
+  YA% = 0
+  FOR Y% = 4 TO 2+(Leny%*2) STEP 2
+    INCR YA%,1
+    LOCATE Y%,X%
+    PRINT MCruciDat$(YA%,XA%);
+  NEXT Y%
+NEXT X%
+END SUB
+
+
+
+
+SUB GetCruciDat
+SHARED MCNom$,MCDef$,MCDic$,MDicci$,MCY$,MCX$,MCNul$
+SHARED CNom$,CDef$,CDic$,Dicci$,CY$,CX$,CDat$,CXDe$,CYDe$,CEst$,CNul$
+SHARED MCruciDat$(),MCruciDef%(),CY%,CX%
+LOCAL P0%,P1%
+ MCNom$ = CNom$
+ MCDef$ = CDef$
+ MCDic$ = FNTrim$(CDic$)
+ MDicci$ = FNTrim$(CDic$)'*Diccionario secundario
+ MCY$ = CY$
+ MCX$ = CX$
+ CY% = VAL(MCY$)		'*Longitud Vertical del crucigrama
+ CX% = VAL(MCX$)		'*Longitud Horizontal del crucigrama
+
+ P0%=0 : P1%=1		'*Lee los caracteres que componen el crucigrama
+ FOR X% = 1 TO CX%	'*Lee las definiciones Horizontales y Verticales
+  FOR Y% = 1 TO CY%
+     INCR P0%,1
+     MCruciDat$(Y%,X%) = MID$(CDat$,P0%,1)
+     MCruciDef%(Y%,X%,1) = CVI(MID$(CXDe$,P1%,2))
+     MCruciDef%(Y%,X%,2) = CVI(MID$(CYDe$,P1%,2))
+     INCR P1%,2
+  NEXT Y%
+ NEXT X%
+END SUB
+
+
+
+SUB PutCruciDat
+SHARED CNom$,CDef$,CDic$,CY$,CX$,CDat$,CYDe$,CXDe$,CEst$,CNul$
+SHARED MCNom$,MCDef$,MCDic$,MCY$,MCX$,MCEst$,MCNul$
+SHARED MCruciDat$(),MCruciDef%()
+LOCAL MCDat$,MCXDe$,MCYDe$
+
+FOR X% = 1 TO CX%
+   FOR Y% = 1 TO CY%
+        IF MCruciDat$(Y%,X%) = "" THEN MCruciDat$(Y%,X%) = " "
+   	MCDat$ = MCDat$ + MCruciDat$(Y%,X%)
+   	MCXDe$ = MCXDe$ + MKI$(MCruciDef%(Y%,X%,1))
+        MCYDe$ = MCYDe$ + MKI$(MCruciDef%(Y%,X%,2))
+   NEXT Y%
+NEXT X%
+	LSET CNom$ = MCNom$
+	LSET CDef$ = MCDef$
+	LSET CDic$ = MCDic$
+	LSET CY$   = MCY$
+	LSET CX$   = MCX$
+	LSET CDat$ = MCDat$
+	LSET CXDe$ = MCXDe$
+	LSET CYDe$ = MCYDe$
+	LSET CEst$ = MCEst$
+	LSET CNul$ = MCNul$
+END SUB
+
+
+

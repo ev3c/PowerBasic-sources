@@ -1,0 +1,388 @@
+
+' ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+'ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออปบ
+'บ Packet.......:  PBGETDIR.INC                                            บบ
+'บ Definition...:  Get directory, find files, test paths, etc...           บบ
+'บ Author.......:  Esteve Valentก Morales                                  บบ
+'บ Date.........:  04 - 09 - 91                                            บน
+'บ Observations.:  Need $STACK because some routines are recursives.       บบ
+'บ                                                                         บบ
+'บ                                                                         บบ
+'ฬอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออนบ
+'บ SUB's:                                                                  บบ
+'บ         SplitPathFN(path$,drive$,mdir$,file$,ext$)                      บบ
+'บ         MergePathFN(path$,dfile$,dext$,newpath$,e%)                     บบ
+'บ         FindFile(search$,sattrib%,f$,fattrib%,size&,date%,time%,e%)     บบ
+'บ         ReadDir( search$,sa%, dire$(1), e% )                            บบ
+'บ         ReadTree( path$, Tree$(), e% )                                  บบ
+'บ         PutAttrib( path$, fattrib%, e% )                                บบ
+'บ         SplitAttribFN( fattrib%, freadonly%, fhidden%, fsystem%,_       บบ
+'บ			     flabel%, fsubdir%, ffile%, fshareable% )      บบ
+'บ         MergeAttribFN( fattrib%, mreadonly%, mhidden%, msystem%,_       บบ
+'บ                           mlabel%, msubdir%, mfile%, mshareable% )      บบ
+'บ                                                                         บบ
+'บ FUNCTION's:                                                             บบ
+'บ         WhoIs%( path$ )                                                 บบ
+'บ         GetDOSDir$( drive% )                                            บบ
+'บ         GetDOSPath$( drive% )                                           บบ
+'บ         DriveCode%( drive$ )                                            บบ
+'บ         DriveLetter$( drive% )                                          บบ
+'บ         SearchFileDOSPath$( f$, sattrib% )                              บบ
+'บ         SearchFile$( search$, tree$() )                                 บบ
+'บ         GetFreeDiskSpace#( drive% )                                     บบ
+'บ         GetTotalDiskSpace#( drive% )                                    บบ
+'บ         FileDate$( date% )                                              บบ
+'บ         FileTime$( Time% )                                              บบ
+'บ         GetAttrib%( path$ )                                             บบ
+'บ                                                                         บบ
+'บ                                                                         บบ
+'บ                                                                         บบ
+'ฬอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออนบ
+'บ  Copyright (C) Robert J. Showalter, 1987.  CompuServe ID 72220,466.     บบ
+'บ  Last modification and creation of new SUBs and FUNCTIONs for           บบ
+'บ  Esteve Valentก Morales.                                                บบ
+'บ  ESTEVE VALENTI in RIME QBASIC in ->PIPO BBS and  2:343\113.11 FIDO ID  บผ
+'ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+'ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+'บ  Funciขn.....: WhoIs%                                                   บ
+'ฬอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+'บ  TO PASS:                                                               บ
+'บ     path$ ===> [d:][\subdirectory\][file]                               บ
+'บ  RETURN:                                                                บ
+'บ     WhoIs% ===> 0 if is a file                                          บ
+'บ                 1 if is a directory                                     บ
+'บ                -1 if error                                              บ
+'ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+'FUNCTION WhoIs%(path$) PUBLIC
+
+
+'ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+'บ  Funciขn.....: GetAttrib%                                               บ
+'ฬอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+'บ  TO PASS:                                                               บ
+'บ     path$ ===> [d:][\subdirectory\][file]                               บ
+'บ  RETURN:                                                                บ
+'บ     GetAttrib% ===> attribute                                           บ
+'บ                      -1 if error                                        บ
+'ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+'FUNCTION GetAttrib%( path$ ) PUBLIC
+
+
+
+'ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+'บ  Subrrutina..: PutAttrib                                                บ
+'ฬอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+'บ  TO PASS:                                                               บ
+'บ     path$    ===> [d:][\subdirectory\][file]                            บ
+'บ     fattrib% ===> file attribute                                        บ
+'บ  RETURN:                                                                บ
+'บ     e%       ===>  0 if OK                                              บ
+'บ                    -1 if error                                          บ
+'ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+'SUB PutAttrib( path$, fattrib%, e% ) PUBLIC
+
+
+'ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+'บ  Funciขn.....: SplitAttribFN                                            บ
+'ฬอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+'บ  TO PASS:                                                               บ
+'บ     fattrib% ===> file attribute                                        บ
+'บ  RETURN:                                                                บ
+'บ     freadonly%  ===> -1 if true : 0 if not true                         บ
+'บ     fhidden%    ===> -1 if true : 0 if not true                         บ
+'บ     fsystem%    ===> -1 if true : 0 if not true                         บ
+'บ     flabel%     ===> -1 if true : 0 if not true                         บ
+'บ     fsubdir%    ===> -1 if true : 0 if not true                         บ
+'บ     ffile%      ===> -1 if true : 0 if not true                         บ
+'บ     fshareable% ===> -1 if true : 0 if not true(in Novell Netware files)บ
+'ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+'SUB SplitAttribFN( fattrib%, freadonly%, fhidden%, fsystem%, flabel%,_
+			     fsubdir%, ffile%, fshareable%) PUBLIC
+
+
+
+'ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+'บ  Funciขn.....: MergeAttribFN                                            บ
+'ฬอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+'บ  TO PASS:                                                               บ
+'บ     mreadonly%  ===> -1 to active bit                                   บ
+'บ     mhidden%    ===> -1     "                                           บ
+'บ     msystem%    ===> -1     "                                           บ
+'บ     mlabel%     ===> -1     "                                           บ
+'บ     msubdir%    ===> -1     "                                           บ
+'บ     mfile%      ===> -1     "                                           บ
+'บ     mshareable% ===> -1     "                (in Novell Netware files)  บ
+'บ  RETURN:                                                                บ
+'บ     fattrib% ===> file attribute                                        บ
+'ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+'SUB MergeAttribFN( fattrib%, mreadonly%, mhidden%, msystem%, mlabel%,_
+			     msubdir%, mfile%, mshareable%) PUBLIC
+
+
+
+'ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+'บ Subrrutina ....: SplitPathFN                                            บ
+'ฬอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+'บ Descompone Path$ en varias variables.                                   บ
+'บ  ej:  Si path$ = "A:\SUBRRUTI\*.*" .                                    บ
+'บ        Drive$ = "A:\"    Dir$ = "SUBRRUTI\"   File$ = "*"  Ext$ = ".*"  บ
+'บ     No comprueva la existencia de algun error,solamente descompone Path$บ
+'ฬอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+'บ  Path$ ====>   Unidad:\Directorio\SubDirectorio\Fichero.Extensiขn a     บ
+'บ                descomponer.                                             บ
+'บ  Retorna....:                                                           บ
+'บ       Drive$  ====>   Unidad incluidos los ":"                          บ
+'บ       Dir$    ====>   Directorio, trayectoria, incluido el ultimo "\"   บ
+'บ       File$   ====>   Nombre del fichero                                บ
+'บ       Ext$    ====>   Extensiขn del fichero,incluido el "." al principioบ
+'ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+SUB SplitPathFN( path$, drive$, mdir$, file$, ext$ ) PUBLIC
+
+
+
+
+'ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+'บ  Subrrutina....: MergePathFN                                            บ
+'ฬอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+'บ  Entraremos la especificaciขn de busqueda  *.*, *.EXE,\SUBRRUTI etc..   บ
+'บ  y retorna en newpath$ la Unidad:\Directorio\SubDirectorio\Fichero.Ext  บ
+'บ  para utilizar en FindFile o donde sea.                                 บ
+'ฬอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+'บ                                                                         บ
+'บ  Path$  ====>  Trayectoria de busqueda                                  บ
+'บ  DFile$ ====>  Fichero por defecto para si no se entra. ej: "*"         บ
+'บ  DExt$  ====>  Extensiขn por defecto para si no se entra  ej "*"        บ
+'บ                                                                         บ
+'บ  Retorno....:                                                           บ
+'บ     Newpath$ ===>  Resultado de la mezcla. Unidad\Directorio\Fichero.Extบ
+'บ     e%       ===>  Codigo de error.    0 = sin error                    บ
+'บ                        1 = Directorio especificado incorrecto.          บ
+'บ                        2 = Especificaciขn ".." incorrecta.              บ
+'ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+SUB MergePathFN( path$, dfile$, dext$, newpath$, e% ) PUBLIC
+
+
+
+
+
+'ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+'บ  Subrrutina ....: FindFile                                              บ
+'ฬอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+'บ  Busca un fichero o grupo de ficheros en la trayectoria especificada en บ
+'บ  Search$.  ej:  Search$ = A:\*.*  = el primer fichero de A:\*.*         บ
+'บ                     la siguiente llamada se hace con Search$ = ""       บ
+'บ                 Search$ =   ""    = el segundo fichero de A:\*.*        บ
+'ฬอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+'บ   search$  ====>  Trayectoria de busqueda y fichero si procede.         บ
+'บ   sattrib% ====>  Atributo del fichero a buscar.  ej: 0 = Fichero Normalบ
+'บ                                                                         บ
+'บ   Retorna...:                                                           บ
+'บ      f$       ===> Nombre y tipo de fichero                             บ
+'บ      fattrib% ===> Atributo del fichero                                 บ
+'บ      size&    ===> Longitud del fichero en bytes.                       บ
+'บ      date%    ===> Byte de Fecha de grabaciขn del fichero.              บ
+'บ      time%    ===> Byte de Hora,Minuto,Segundo de grabaciขn del fichero.บ
+'บ      e%       ===> Codigo de error. 0=No error   2=Path no valido       บ
+'บ                                    18=No hay mas ficheros               บ
+'ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+SUB FindFile(search$,sattrib%,f$,fattrib%,size&,date%,time%,e%) PUBLIC
+
+
+
+
+
+'ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+'บ  Funciขn....: GetDOSDir$                                                บ
+'ฬอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+'บ  TO PASS:                                                               บ
+'บ     drive% ===> Drive number. 0 for DOS default drive.                  บ
+'บ  RETURN:                                                                บ
+'บ     GetDOSDir$ ===> Current DOS directory of drive asked.               บ
+'บ                      blank string if error                              บ
+'ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+FUNCTION GetDOSDir$( drive% ) PUBLIC
+
+
+
+
+
+
+'ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+'บ  Funciขn....: GetDOSPath$                                               บ
+'ฬอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+'บ  TO PASS:                                                               บ
+'บ     drive% ===> Drive number. 0 for DOS default drive.                  บ
+'บ  RETURN:                                                                บ
+'บ     GetDOSPath$===> Current DOS path of drive asked.                    บ
+'บ                      blank string if error                              บ
+'ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+FUNCTION GetDOSPath$( drive% ) PUBLIC
+
+
+
+
+
+
+'ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+'บ  Funciขn....: DriveCode%                                                บ
+'ฬอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+'บ  TO PASS:                                                               บ
+'บ     drive$ ===> Drive letter and ":" of blank string for DOS default.   บ
+'บ  RETURN:                                                                บ
+'บ     DriveCode% ===> drive code                                          บ
+'บ                      -1 if error                                        บ
+'ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+FUNCTION DriveCode%( drive$ ) PUBLIC
+
+
+
+
+
+
+'ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+'บ  Funciขn....: DriveLetter$                                              บ
+'ฬอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+'บ  TO PASS:                                                               บ
+'บ     drive% ===> drive number.     0 for get default DOS drive           บ
+'บ  RETURN:                                                                บ
+'บ     DriveLetter$ ====>  Drive Letter with ":"                           บ
+'บ                          blank string if error                          บ
+'ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+FUNCTION DriveLetter$( drive% ) PUBLIC
+
+
+
+
+
+'ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+'บ  Funciขn.....: SerarchFileDOSPath$                                      บ
+'ฬอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+'บ  TO PASS:                                                               บ
+'บ     f$      ===>  file to search in DOS PATH enviroment.  .             บ
+'บ     sattrib%===>  attribute to search.                                  บ
+'บ  RETURN:                                                                บ
+'บ     SearchPath$ ===> path and filename.ext  (d:\dir\filename.ext)       บ
+'บ                       blank string if not found or error.               บ
+'ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+FUNCTION SearchFileDOSPath$(f$,sattrib%) PUBLIC
+
+
+
+
+
+
+'ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+'บ  Subrrutina....:  ReadDir                                               บ
+'ฬอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+'บ  Search all files using the mask search$ and return these in dire$()    บ
+'ฬอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+'บ  TO PASS:                                                               บ
+'บ     search$  ===>  search trayectory.                                   บ
+'บ     sattrib% ===>  atribute of files searched.                          บ
+'บ  RETURN:                                                                บ
+'บ     dire$()  ===>  array with the file name, extension, size, etc...    บ
+'บ       	      retrun struct of dire$():                            บ
+'บ                     12345678901234567890123456789012345678901234567890  บ
+'บ                     FILENAME.EXT -----SIZE  MM/DD/YY  HH:MM:SS AM   at  บ
+'บ                                  <DIR>        MKI$(file attribute)___|  บ
+'บ     e%       ===>  DOS error code. 0 if not error.                      บ
+'ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+'SUB ReadDir( search$,sa%, dire$(1), e% ) PUBLIC
+
+
+
+
+
+'ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+'บ  Subrrutina....:  ReadTree                                              บ
+'ฬอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+'บ  Get the directory tree from start specified in path$ and return        บ
+'บ  these sorted right in dire$().                                         บ
+'ฬอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+'บ  TO PASS:                                                               บ
+'บ     search$  ===>  search trayectory.                                   บ
+'บ                     accepts: "", "d:", "d:\dir", "d:\dir\dir\"          บ
+'บ  RETURN:                                                                บ
+'บ     dire$()  ===>  sorted tree directory.                               บ
+'บ     e%       ===>  DOS error code. 0 if not error.                      บ
+'ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+SUB ReadTree( path$, Tree$(), e% ) PUBLIC
+
+
+
+
+
+
+'ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+'บ  Funcion...:  SearchFile$                                               บ
+'ฬอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+'บ  TO PASS:                                                               บ
+'บ     search$  ===>  search mask to find file "*.*", "*.BAS" etc..        บ
+'บ                     blank string for search again.                      บ
+'บ     tree$()  ===>  tree directory array. (returned for ReadTree)        บ
+'บ  RETURN:                                                                บ
+'บ     SearchFile$ ===> Path and filename found                            บ
+'บ                       blank string if not found or error                บ
+'ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+FUNCTION SearchFile$( search$, tree$() ) PUBLIC
+
+
+
+
+'ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+'บ  Funcion...:  GetFreeDiskSpace#                                         บ
+'ฬอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+'บ  TO PASS:                                                               บ
+'บ     drive%  ===> drive number. 0 for DOS default drive                  บ
+'บ  RETURN:                                                                บ
+'บ     GetFreeDiskSpace# ===> Free disk space.                             บ
+'บ                             -1 if error                                 บ
+'ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+FUNCTION GetFreeDiskSpace#( drive% ) PUBLIC
+
+
+
+
+
+'ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+'บ  Funcion...:  GetTotalDiskSpace#                                        บ
+'ฬอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+'บ  TO PASS:                                                               บ
+'บ     drive%  ===> drive number. 0 for DOS default drive                  บ
+'บ  RETURN:                                                                บ
+'บ     GetTotalDiskSpace# ===> Free disk space.                            บ
+'บ                              -1 if error                                บ
+'ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+FUNCTION GetTotalDiskSpace#( drive% ) PUBLIC
+
+
+
+
+
+'ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+'บ  Funciขn.....: FileDate$          Convierte Byte fecha en  DD/MM/AA     บ
+'ฬอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+'บ    Date% ====> Es el byte leido del disco que contiene la fecha en que  บ
+'บ                fu grabado el fichero.                                  บ
+'บ    Retorna....:                                                         บ
+'บ        FileDate$ ===> La fecha de grabaciขn  "DD/MM/AA", total 8 caract.บ
+'ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+FUNCTION FileDate$( date% ) PUBLIC
+
+
+
+
+
+'ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+'บ  Funciขn.....: FileTime$          Convierte Byte tiempo en HH:MM:SS AM  บ
+'ฬอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+'บ    Time% ====>  Es el byte leido del disco que contiene la hora,minutos บ
+'บ                 y segundos en que fu grabado el fichero.               บ
+'บ    Retorna....:                                                         บ
+'บ        FileTime$ ===> Retorna la  "HH:MM:SS AM" , total 11 caracteres.  บ
+'ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+FUNCTION FileTime$( Time% ) PUBLIC
+
+

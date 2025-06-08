@@ -1,0 +1,8 @@
+
+record= 28  variable=n key= 1  page=512
+
+
+position=1 length=8 duplicates=y modifiable=y type=string
+alternate=n null=n segment=n
+
+name=CLIENTE

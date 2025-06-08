@@ -1,0 +1,335 @@
+'$include "REGNAMES.INC"
+
+'
+'ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+'บ DEF FN:input$                                            06-29-1992   บ
+'ฬอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+'บ ACTION:                                                               บ
+'บ                                                                       บ
+'บ                                                                       บ
+'บ TO PASS:                                                              บ
+'บ    posy%          ===>                                                บ
+'บ    posx%          ===>                                                บ
+'บ    lend%          ===>                                                บ
+'บ    ifgc%          ===>                                                บ
+'บ    ibgc%          ===>                                                บ
+'บ    ofgc%          ===>                                                บ
+'บ    obgc%          ===>                                                บ
+'บ    type%          ===>                                                บ
+'บ    ulcase%        ===>                                                บ
+'บ                                                                       บ
+'บ RETURN:                                                               บ
+'บ                                                                       บ
+'ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+def fninput$(posy%,posx%,lend%,ifgc%,ibgc%,ofgc%,obgc%,type%,ulcase%)
+   local t$
+   local fecha$
+   local pe%
+   local num#
+   local d%
+   local m%
+   local y%
+   local x%
+   local w%
+   local musing$
+   shared ret%
+    ret% = 0
+    locate posy%,posx%
+    color ifgc%,ibgc%
+     call defsegscreen
+    
+
+    select case type% >=0
+     case type% = 0
+       locate posy%,posx%
+       print fntext$(posy%,posx%,lend%);
+     case type% = 1 or type% = 2 or type% = 4 or type% = 5
+       num# = val(fntext$(posy%,posx%,lend%))
+       musing$ = string$(len(str$(num#))-1,"#")
+       if type% = 2 and lend% < 2 then lend%=2	'Controla error en el tamaคo
+       if type% = 4 and lend% < 5 then lend%=5    '   "       "       "
+       if type% = 5 and lend% < 7 then lend%=7    '   "       "       "
+       locate posy%,posx%
+       print space$(lend%);
+       if type% = 2 then musing$ = "+"+string$(len(str$(num#))-1,"#")
+       if type% = 4 then musing$ = "+"+string$(len(str$(fix(num#)))-1,"#")+".##"
+       if type% = 5 then musing$ = "+"+string$(len(str$(fix(num#)))-1,"#")+".####"
+       locate posy%,posx%
+       print using musing$;num#
+     case type% = 3
+       lend% = 6					'Fija el tamaคo
+       locate posy%,posx%
+       fecha$=fntext$(posy%,posx%,lend%+2)
+       print left$(fecha$,2);mid$(fecha$,4,2);right$(fecha$,2);"  ";
+    end select
+
+    
+    iniciofninput:
+    color ifgc%,ibgc%
+    locate posy%,posx%,1
+    
+
+    do
+       t$=inkey$
+       
+
+       select case t$<>chr$(&h00)
+        case t$=chr$(&h08)            			'Borrar de la Izquierda
+          
+
+          if pos(0)>posx% then
+             
+
+             for x% =((csrlin-1)*160)+((pos(0)-2)*2) to ((csrlin-1)*160)+((posx%+lend%-3)*2) step 2
+                poke x%,peek(x%+2)
+             next x%
+
+             
+             poke x%,32
+             locate csrlin,pos(0)-1
+          end if
+
+          
+        case t$=chr$(&h00)+chr$(&h53)				'Borrar de la Derecha
+          
+
+          if pos(0)< posx%+lend% then
+             
+
+             for x% = ((csrlin-1)*160)+((pos(0)-1)*2) to ((csrlin-1)*160)+((posx%+lend%-3)*2) step 2
+                poke x%,peek(x%+2)
+             next x%
+
+             
+             poke x%,32
+          end if
+
+          
+        case t$=chr$(&h00)+chr$(&h52)				'Insertar Espacios
+          
+
+          if pos(0)< posx%+lend% then
+             
+
+             for x% = ((csrlin-1)*160)+((posx%+lend%-2)*2) to ((csrlin-1)*160)+((pos(0)*2)) step -2
+                poke x%,peek(x%-2)
+             next x%
+
+             
+             poke x%,32
+          end if
+
+          
+        case t$=chr$(&h00)+chr$(&h4b)				'Cursor Izquierda
+          if pos(0)>posx%  then  locate csrlin,pos(0)-1
+        case t$=chr$(&h00)+chr$(&h4d)				'Cursor Derecha
+          if pos(0)<posx%+lend% then locate csrlin,pos(0)+1
+        case t$=chr$(&h00)+chr$(&h4f)                    	'Cursor Fin
+          locate csrlin,posx%+lend%
+        case t$=chr$(&h00)+chr$(&h47)                      	'Cursor Origen
+          locate csrlin,posx%
+        case t$=chr$(&h00)+chr$(&h48)			     	'Cursor Arriba RET%=2
+          ret% = 2
+          exit loop
+        case t$= chr$(&h00)+chr$(&h50)			'Cursor Abajo RET%=3
+          ret% = 3
+          exit loop
+        case t$=chr$(&h1b)                  		     	'Si Pulsas ESC RET%=1
+          ret% = 1
+          exit loop
+        case t$ >= " " and t$ < chr$(&hb0)  and  type%=0	'Alfanumricos
+          
+
+          if pos(0)<=posx%+lend%-1 then
+             if ulcase% = 3 and (pos(0)=posx% or peek(((csrlin-1)*160)+((pos(0)-2)*2))=32) then w%=1
+             
+
+             if ulcase%=0 then        		'Caracteres normales
+                print t$;
+             elseif ulcase%=1 then 		'Fuerza Mayusculas
+                print ucase$(t$);
+             else
+                
+
+                if w%=0 then                    'Fuerza Minusculas
+                   if t$=" " then w%=1
+                   print lcase$(t$);
+                else                            'Fuerza Mayusculas Primeras
+                   print ucase$(t$);
+                   w% = 0
+                end if
+
+                
+             end if
+
+             
+          end if
+
+          
+        case t$>="0" and t$=<"9" and (type%=1 or type% = 3)	'Nฃmeros Positivos
+          if pos(0)< posx%+lend% then  print t$;             'y Fechas
+        case ((t$ >= "0" and t$ =< "9") or_
+          t$ = "-") and type% = 2	 			'Nฃmeros Negativos
+          
+
+          if pos(0) < posx%+lend% then
+             if t$ <> "-" then print t$;
+             if t$ =  "-" and ((val(fntext$(posy%,posx%,pos(0)-posx%))=0_
+             and instr(fntext$(posy%,posx%,pos(0)-posx%),"-")=0_
+             and instr(fntext$(posy%,posx%,lend%),"-")=0) or_
+             fntext$(csrlin,pos(0),1) = "-" )  then print t$;
+          end if
+
+          
+        case ((t$ >= "0" and t$ =< "9" )or_
+          t$="-" or t$=".") and (type%=4 or type%=5) 	'Negativos y Decimales
+          
+
+          if pos(0)< posx%+lend% then
+             if t$ <> "-" and t$ <> "." then print t$;
+             if t$ =  "-" and ((val(fntext$(posy%,posx%,pos(0)-posx%))=0_
+             and instr(fntext$(posy%,posx%,pos(0)-posx%),".")=0_
+             and instr(fntext$(posy%,posx%,pos(0)-posx%),"-")=0_
+             and instr(fntext$(posy%,posx%,lend%),"-")=0) or_
+             fntext$(csrlin,pos(0),1) = "-") then print t$;
+             if t$ =  "." and (instr(fntext$(posy%,posx%,lend%),".")=0_
+             or fntext$(csrlin,pos(0),1) = ".") then print t$;
+          end if
+
+          
+        case else
+          if t$ <> "" and t$ <> chr$(&h0d) then beep
+       end select
+
+       
+    loop until t$=chr$(&h0d)
+
+    
+    color ofgc%,obgc%
+    locate posy%,posx%,0
+    
+
+    select case type% >=0
+     case type% = 0
+       print fntext$(posy%,posx%,lend%);
+     case type% = 1 or type% = 2 or type% = 4 or type% = 5
+       num# = val(fntext$(posy%,posx%,lend%))
+       musing$ = string$(lend%,"#")
+       if type% = 2 and len(str$(num#))-1 > lend%-1 then goto iniciofninput:
+       if type% = 4 and len(str$(fix(num#)))-1 > lend%-4 then goto iniciofninput:
+       if type% = 5 and len(str$(fix(num#)))-1 > lend%-6 then goto iniciofninput:
+       if type% = 2 then musing$ = "+"+string$(lend%-1,"#")
+       if type% = 4 then musing$ = "+"+string$(lend%-4,"#")+".##"
+       if type% = 5 then musing$ = "+"+string$(lend%-6,"#")+".####"
+       print using musing$;num#
+     case type% = 3
+       
+
+       if fntext$(posy%,posx%,lend%) <>"      " then
+          d% = val(left$(fntext$(posy%,posx%,lend%),2))
+          m% = val(mid$(fntext$(posy%,posx%,lend%),3,2))
+          y% = val(right$(fntext$(posy%,posx%,lend%),2))
+          
+
+          if m%<1 or m%>12 or d%<1 or d%> val(mid$(" 312931303130313130313031",m%*2,2)) or (m%=2 and d%>28 and y%/4.0>int(y%/4.0)) then
+             goto iniciofninput:
+          end if
+
+          
+       end if
+
+       
+       fecha$  = fntext$(posy%,posx%,lend%)
+       print left$(fecha$,2);"-";mid$(fecha$,3,2);"-";right$(fecha$,2);
+       lend% = 8
+    end select
+
+    
+    fninput$=fntext$(posy%,posx%,lend%)
+    color ofgc%,obgc%
+    locate,,0
+    
+'ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+'บ END DEF:input$                                           06-29-1992   บ
+'ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+end def
+
+
+
+
+
+'
+'ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+'บ DEF FN:sino$                                             06-29-1992   บ
+'ฬอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออน
+'บ ACTION:                                                               บ
+'บ                                                                       บ
+'บ                                                                       บ
+'บ TO PASS:                                                              บ
+'บ    posy%          ===>                                                บ
+'บ    posx%          ===>                                                บ
+'บ    ifgc%          ===>                                                บ
+'บ    ibgc%          ===>                                                บ
+'บ    ofgc%          ===>                                                บ
+'บ    obgc%          ===>                                                บ
+'บ    filt$          ===>                                                บ
+'บ                                                                       บ
+'บ RETURN:                                                               บ
+'บ                                                                       บ
+'ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+def fnsino$(posy%,posx%,ifgc%,ibgc%,ofgc%,obgc%,filt$)
+   local t$
+   shared ret%,ancho%
+    ret% = 0
+    color ifgc%,ibgc%
+    locate posy%,posx%,1
+    print fntext$(posy%,posx%,1);
+    locate posy%,posx%,1
+     call defsegscreen
+    
+
+    do
+       t$=ucase$(inkey$)
+       
+
+       select case t$<>chr$(&h00)
+        case t$=chr$(&h1b)					'ESC
+          ret%=1
+          exit loop
+        case t$=chr$(&h00)+chr$(&h48)				'PAGUP
+          ret%=2
+          exit loop
+        case t$=chr$(&h0d) or t$=chr$(&h00)+chr$(&h50)      	'INTRO
+           call defsegscreen
+          t$ = fntext$(posy%,posx%,1)
+          if instr(filt$,t$) <> 0  then  exit loop
+        case else
+          if t$ <> "" and instr(filt$,t$) = 0 then beep
+       end select
+
+       
+    loop until instr(filt$,t$) <> 0 and t$ <> ""
+
+    
+    fnsino$ = t$
+    color ofgc%,obgc%
+    
+
+    if len(t$) < 2 then
+       print t$;
+    else
+       print fntext$(posy%,posx%,1)
+    end if
+
+    
+    locate ,,0
+    
+'ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+'บ END DEF:sino$                                            06-29-1992   บ
+'ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+end def
+
+
+
+
+

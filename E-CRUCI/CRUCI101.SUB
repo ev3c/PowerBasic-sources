@@ -1,0 +1,31 @@
+SUB OpenWindowDicci(BOTY%,BOTX%,TYPE%)
+SHARED WMENU%,MDicci$,MenuDicci1$(),MenuDicci2$()
+IF TYPE% = 1 THEN	
+	CALL WOpen(BOTY%,BOTX%,BOTY%+11,BOTX%+16,2,1,0,7,"DICCIONARIOS")
+	CALL WMENU(MenuDicci2$(),0)
+ELSE
+	CALL WOpen(BOTY%,BOTX%,BOTY%+10,BOTX%+16,2,1,0,7,"DICCIONARIOS")
+	CALL WMENU(MenuDicci1$(),0)
+END IF
+IF WMENU% <> 0 THEN MDicci$ = "DICCI00"+MID$(STR$(WMENU%-1),2,1)
+CALL WCLOSE
+END SUB
+
+
+
+SUB ReadDatDicci(FileNum%,NameDicci$)
+SHARED MIndexDicciGE%(),MIndexDicci%()
+IF NameDicci$ = "DICCI000" THEN
+ '** Abre el Diccionario General y Lee el indice en Mem¢ria.
+  CALL QSOPEN (1,"DICCI000.DIC",100)
+  CALL QSReadIndex("DICCI000.NDX",MIndexDicciGE%())
+ '**
+ELSEIF FNTrim$(NameDicci$) <> "" THEN
+ '** Si existe el Diccionario secundario lo abre y lee el
+ '** indice en mem¢ria
+  CALL QSOPEN (FileNum%,NameDicci$+".DIC",100)
+  CALL QSReadIndex(NameDicci$+".NDX",MIndexDicci%())
+ '**
+END IF
+END SUB
+

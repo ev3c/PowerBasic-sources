@@ -1,0 +1,386 @@
+
+SUB ImprimirPantalla(Type%)
+REM   E-Screen  Ver 2.10    por  Esteve Valentก Morales
+REM   Nombre de la Pantalla ...: A:\E-SCREEN\PANTALLA\CRUCI411.TUB
+LOCATE 1,1
+COLOR 15,0
+PRINT "ษอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป ";
+SELECT CASE Type%
+
+CASE 1
+LOCATE 2,1
+PRINT "บ                              ษอป ป  อหอ ษอป ษอธ                             บ ";
+LOCATE 3,1
+PRINT "บ                              ฬอน บ   บ  ฬอน ศอป                             บ ";
+LOCATE 4,1
+PRINT "บ                              ฝ ำ ศอพ ะ  ฝ ำ ศอผ                             บ ";
+
+CASE 2
+LOCATE 2,1
+PRINT "บ                             ษอป ษอป   ห ษอป ษอธ                             บ ";
+LOCATE 3,1
+PRINT "บ                             ฬอน ฬอน า บ ฬอน ศอป                             บ ";
+LOCATE 4,1
+PRINT "บ                             ะอผ ฝ ำ ศอผ ฝ ำ ศอผ                             บ ";
+
+CASE 3
+LOCATE 2,1
+PRINT "บ               ษอธ  ษอป  ษฟษ  ษอธ  ห ห  ป  อหอ ษอป  ษอธ                      บ ";
+LOCATE 3,1
+PRINT "บ               บ    บ บ  บณบ  ศอป  บ บ  บ   บ  ฬอน  ศอป                      บ ";
+LOCATE 4,1
+PRINT "บ               ศอพ  ศอผ  ฝภผ  ศอผ  ศอผ  ศอพ ะ  ฝ ำ  ศอผ                      บ ";
+
+CASE 4
+PRINT "บ             ษธีป ษอป หอป ห หอธ ห ษอธ ษอป ษอธ ห ษอป ษฟษ ษอธ ษอธ              บ ";
+LOCATE 3,1
+PRINT "บ             บิพบ บ บ บ บ บ ฬต  บ บ   ฬอน บ   บ บ บ บณบ ฬต  ศอป              บ ";
+LOCATE 4,1
+PRINT "บ             ฝ  ำ ศอผ สอผ ส ส   ส ศอพ ฝ ำ ศอพ ส ศอผ ฝภผ ศอพ ศอผ              บ ";
+LOCATE 5,1
+
+END SELECT
+
+LOCATE 5,1
+PRINT "ฬอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออน ";
+LOCATE 6,1
+PRINT "บ";
+LOCATE 6,7
+PRINT "ฺฤฤฤฤฤฤฤฤฤฤฤฤฤฟ";
+LOCATE 6,60
+PRINT "ฺฤฤฤฤฤฤฤฤฤฤฤฤฟ";
+LOCATE 6,79
+PRINT "บ";
+LOCATE 7,1
+PRINT "บ";
+LOCATE 7,7
+PRINT "ณ";
+LOCATE 7,9
+PRINT "DICCIONARIO";
+LOCATE 7,21
+PRINT "ณ";
+LOCATE 7,60
+PRINT "ณ";
+LOCATE 7,62
+PRINT "Palabra Nง";
+LOCATE 7,73
+PRINT "ณ";
+LOCATE 7,79
+PRINT "บ";
+LOCATE 8,1
+PRINT "บ";
+LOCATE 8,7
+PRINT "รฤฤฤฤฤฤฤฤฤฤฤฤฤด";
+LOCATE 8,60
+PRINT "รฤฤฤฤฤฤฤฤฤฤฤฤด";
+LOCATE 8,79
+PRINT "บ";
+LOCATE 9,1
+PRINT "บ";
+LOCATE 9,7
+PRINT "ณ";
+LOCATE 9,21
+PRINT "ณ";
+LOCATE 9,60
+PRINT "ณ";
+LOCATE 9,73
+PRINT "ณ";
+LOCATE 9,79
+PRINT "บ";
+LOCATE 10,1
+PRINT "บ";
+LOCATE 10,7
+PRINT "ภฤฤฤฤฤฤฤฤฤฤฤฤฤู";
+LOCATE 10,34
+PRINT "P A L A B R A";
+LOCATE 10,60
+PRINT "ภฤฤฤฤฤฤฤฤฤฤฤฤู";
+LOCATE 10,79
+PRINT "บ";
+LOCATE 11,1
+PRINT "บ";
+LOCATE 11,29
+PRINT "ฺฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฟ";
+LOCATE 11,79
+PRINT "บ";
+LOCATE 12,1
+PRINT "บ";
+LOCATE 12,29
+PRINT "ณ";
+LOCATE 12,31
+COLOR 0,7
+PRINT "                   ";
+LOCATE 12,51
+COLOR 15,0
+PRINT "ณ";
+LOCATE 12,79
+PRINT "บ";
+LOCATE 13,1
+PRINT "บ";
+LOCATE 13,29
+PRINT "ภฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤู";
+LOCATE 13,79
+PRINT "บ";
+LOCATE 14,1
+PRINT "บ";
+LOCATE 14,79
+PRINT "บ";
+LOCATE 15,1
+PRINT "บ";
+LOCATE 15,31
+PRINT "D E F I N I C I O N ";
+LOCATE 15,79
+PRINT "บ";
+LOCATE 16,1
+PRINT "บฺฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฟบ";
+LOCATE 17,1
+PRINT "บณ";
+LOCATE 17,3
+COLOR 0,7
+PRINT "                                                                           ";
+LOCATE 17,78
+COLOR 15,0
+PRINT "ณบ";
+LOCATE 18,1
+PRINT "บภฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤูบ";
+LOCATE 19,1
+PRINT "บ";
+LOCATE 19,79
+PRINT "บ";
+LOCATE 20,1
+PRINT "บ";
+LOCATE 20,79
+PRINT "บ";
+LOCATE 21,1
+PRINT "บ";
+LOCATE 21,79
+PRINT "บ";
+LOCATE 22,1
+PRINT "ฬอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออน";
+LOCATE 23,1
+PRINT "บ                                                                             บ";
+LOCATE 24,1
+PRINT "ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ";
+END SUB
+
+
+
+SUB ImprimirOpciones(Type%)
+COLOR 15,0
+LOCATE 23,5
+PRINT SPACE$(72);
+SELECT CASE Type%
+CASE 1
+	LOCATE 23,5
+	COLOR 0,7
+	PRINT " ESC ";
+	LOCATE 23,10
+	COLOR 15,0
+	PRINT "\Salir
+CASE 2
+	LOCATE 23,5
+	COLOR 0,7
+	PRINT " ESC ";
+	LOCATE 23,10
+	COLOR 15,0
+	PRINT "\Salir     ";
+	LOCATE 23,21
+	COLOR 0,7
+	PRINT " PAGUP ";
+	LOCATE 23,28
+	COLOR 15,0
+	PRINT "\Anterior    ";
+	LOCATE 23,41
+	COLOR 0,7
+	PRINT " PAGDW ";
+	LOCATE 23,48
+	COLOR 15,0
+	PRINT "\Siguiente    ";
+	LOCATE 23,62
+	COLOR 0,7
+	PRINT " INTRO ";
+	LOCATE 23,69
+	COLOR 15,0
+	PRINT "\Borrar ";
+CASE 3
+	LOCATE 23,5
+	COLOR 0,7
+	PRINT " ESC ";
+	LOCATE 23,10
+	COLOR 15,0
+	PRINT "\Salir     ";
+	LOCATE 23,21
+	COLOR 0,7
+	PRINT " PAGUP ";
+	LOCATE 23,28
+	COLOR 15,0
+	PRINT "\Anterior    ";
+	LOCATE 23,41
+	COLOR 0,7
+	PRINT " PAGDW ";
+	LOCATE 23,48
+	COLOR 15,0
+	PRINT "\Siguiente";
+CASE 4
+	LOCATE 23,5
+	COLOR 0,7
+	PRINT " ESC ";
+	LOCATE 23,10
+	COLOR 15,0
+	PRINT "\Salir    ";
+	LOCATE 23,20
+	COLOR 0,7
+	PRINT " PAGUP ";
+	LOCATE 23,27
+	COLOR 15,0
+	PRINT "\Anterior   ";
+	LOCATE 23,39
+	COLOR 0,7
+	PRINT " PAGDW ";
+	LOCATE 23,46
+	COLOR 15,0
+	PRINT "\Siguiente   ";
+	LOCATE 23,59
+	COLOR 0,7
+	PRINT " INTRO ";
+	LOCATE 23,66
+	COLOR 15,0
+	PRINT "\Modificar";
+END SELECT
+END SUB
+
+
+
+SUB ImprimirNombreDicci(NumDicci%)
+LOCAL Dicci$
+SELECT CASE NumDicci%
+CASE 0
+	Dicci$ = "   GENERAL   "
+CASE 1
+	Dicci$ = "   PRIMERO   "
+CASE 2
+	Dicci$ = "   SEGUNDO   "
+CASE 3
+	Dicci$ = "   TERCERO   "
+CASE 4
+	Dicci$ = "   CUARTO    "
+CASE 5
+	Dicci$ = "   QUINTO    "
+END SELECT
+LOCATE 9,8
+COLOR 0,7
+PRINT Dicci$;
+END SUB
+
+
+
+
+SUB ImprimirReg
+SHARED PALA$,DEFI$,ESTA$,NULO$,QSLocInIndex%
+ COLOR 0,7
+ LOCATE 12,31
+  PRINT PALA$;
+ LOCATE 17,3
+  PRINT DEFI$;
+ LOCATE 9,65					'***Imprime numero palabra
+  PRINT USING "####";QSLocInIndex%
+ COLOR 15,0
+ IF ESTA$ = "*" THEN CALL Message("La palabra esta dada de BAJA")
+END SUB
+
+
+
+
+
+
+
+
+
+SUB Consultar(Opciones%)
+LOCAL A$,Palabra$
+SHARED MIndexDicci%(),RET%,MindexDicciGE%(),MDicci$
+
+IF FNQSEof(1) = 1 THEN
+   CALL WMSG (0,0,"     El Diccionario est  vacio.     ")
+   RET% = 1
+   EXIT SUB
+END IF
+
+DO
+ COLOR 0,7				'***Limpia los campos de entrada
+ LOCATE 12,31:PRINT SPACE$(19);		'   de la pantalla
+ LOCATE 17,3 :PRINT SPACE$(75);
+ COLOR 15,0
+
+ CALL ImprimirOpciones(1)
+ CALL Message ("Teclea la palabra a buscar y pulsa INTRO")
+ Palabra$ = FNInput$(12,31,19,0,7,15,0,0,1)
+ IF RET% = 1 THEN EXIT LOOP
+
+ CALL Message("")
+ IF MDicci$ = "DICCI000" THEN
+   CALL QSFindDat(1,"1,19,",MIndexDicciGE%(),Palabra$,e%)
+ ELSE
+   CALL QSFindDat(1,"1,19,",MIndexDicci%(),Palabra$,e%)
+ END IF
+ CALL ImprimirReg
+ CALL ImprimirOpciones(Opciones%)
+ DO
+ A$ = INKEY$
+ SELECT CASE A$
+  CASE CHR$(&H00)+CHR$(&H49)
+   IF MDicci$ = "DICCI000" THEN
+     CALL QSSkip(1,MIndexDicciGE%(),-1,e%)
+   ELSE
+     CALL QSSkip(1,MIndexDicci%(),-1,e%)
+   END IF
+   CALL Message("")
+   CALL ImprimirReg
+   IF e% = -1 THEN CALL Message("Esta es la primera palabra del Diccionario")
+  CASE CHR$(&H00)+CHR$(&H51)
+   IF MDicci$ = "DICCI000" THEN
+     CALL QSSkip(1,MIndexDicciGE%(),+1,e%)
+   ELSE
+     CALL QSSkip(1,MIndexDicci%(),+1,e%)
+   END IF
+   CALL Message("")
+   CALL ImprimirReg
+   IF e% = 1  THEN CALL Message("Esta es la ฃltima palabra del Diccionario")
+  CASE CHR$(&H0D)
+   EXIT SUB
+ END SELECT
+ LOOP UNTIL A$ = CHR$(&H1B)
+LOOP UNTIL RET% = 1
+END SUB
+
+
+SUB MESSAGE (Message$)
+COLOR 15,0
+LOCATE 20,2
+PRINT SPACE$(75)
+IF Message$ <> ""  THEN
+ BEEP
+ LOCATE 20,INT(40-(LEN(Message$)/2))
+ PRINT Message$;
+END IF
+END SUB
+
+
+
+
+DEF FNMSiNo$(Message$)
+LOCAL A$
+Message$ = Message$ + " (S\N) "
+LOCATE 20,2
+PRINT SPACE$(75)
+BEEP 	
+DO
+ LOCATE 20,INT(40-(LEN(Message$)/2))
+ PRINT Message$;
+ A$ = UCASE$(INKEY$)
+LOOP UNTIL A$ = "S" OR A$ = "N"
+FNmSiNo$ = A$
+LOCATE 20,2
+PRINT SPACE$(75)
+END DEF
+
